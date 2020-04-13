@@ -193,8 +193,6 @@ namespace Bucles_Divisiones
 
                     Console.WriteLine(i * j);
                 }
-
-
             }
 
 
