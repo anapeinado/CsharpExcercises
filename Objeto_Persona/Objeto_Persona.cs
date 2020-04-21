@@ -23,13 +23,12 @@ namespace Objeto_Persona
 
             Persona Sergi = new Persona("Sergi", 26, 174);
 
-            //Sergi.nombre = "Sergi Bartomeu Roberti Vallori";
+            Sergi.nombre = "Sergi Bartomeu Roberti Vallori";
             Sergi.nacionalidad = "España";
-            //Sergi.altura = 174;
-            //Sergi.edad = 26;
+            Sergi.altura = 174;
+            Sergi.edad = 26;
             Sergi.peso = 68;
             Sergi.hijos = 0;
-
 
 
             XmlSerializer xsSubmit = new XmlSerializer(typeof(Persona));

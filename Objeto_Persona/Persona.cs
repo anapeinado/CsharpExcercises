@@ -14,6 +14,8 @@ namespace Objeto_Persona
         public string nacionalidad;
         public int hijos = 0;
 
+      
+
 
         public Persona(string nombreConstructor, int edadConstructor, int alturaConstructor)
         {
