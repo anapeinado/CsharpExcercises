@@ -9,7 +9,7 @@ namespace Planets
         
         public string name;
         public double mass;
-        public long surface;
+        public double surface;
 
     }
 }

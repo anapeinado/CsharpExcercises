@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.IO;
+using System.Numerics;
 using Universe;
-using static Universe.PlanetsProvider;
+
 
 namespace Planets
 {
@@ -20,7 +21,7 @@ namespace Planets
             SolarSystem solarSystemFromJson = solarSystemFromFile();
 
 
-            string output = JsonConvert.SerializeObject(solarSystem);
+            string output = JsonConvert.SerializeObject(solarSystemFromJson);
 
 
             Console.WriteLine(output);
@@ -34,11 +35,20 @@ namespace Planets
             string filePlanets = readFile("Planets.json");
 
 
-            PlanetsProvider planetsProvider = JsonConvert.DeserializeObject<PlanetsProvider>(filePlanets);
+            List<PlanetProvider> planetsProvider = JsonConvert.DeserializeObject<List<PlanetProvider>>(filePlanets);
 
 
 
             string fileSatelites = readFile("Satelites.json");
+
+            List<SatelitesProvider> satelitesProvider = JsonConvert.DeserializeObject<List<SatelitesProvider>>(fileSatelites);
+
+
+
+            solarSysX = convertProviderToSolarSys(planetsProvider, satelitesProvider);
+
+
+
 
             return solarSysX;
 
@@ -46,11 +56,59 @@ namespace Planets
 
         }
 
+        private static SolarSystem convertProviderToSolarSys(List<PlanetProvider> planetsProvider, List<SatelitesProvider> satelitesProvider)
+        {
+
+            SolarSystem solarSystem = new SolarSystem();
+            solarSystem.planets = new List<Planet>();
+            Dictionary<int, Planet> planetDic = new Dictionary<int, Planet>();
+
+            foreach (var planetProvider in planetsProvider)
+            {
+                Planet PlanetX = new Planet();
+                PlanetX.name = planetProvider.name;
+                PlanetX.periodRotation = planetProvider.rotationPeriod;
+                PlanetX.periodTranslation = planetProvider.orbitalPeriod;
+                PlanetX.mass = planetProvider.mass;
+                PlanetX.radius = planetProvider.diameter / 2;
+                PlanetX.distanceFromStar = planetProvider.distanceFromSun;
+                PlanetX.surface = 4 * Math.PI * Math.Pow(planetProvider.diameter / 2, 2);
+                PlanetX.solarSystem = "The Solar System";
+                PlanetX.moons = new List<Moon>();
+
+                planetDic.Add(planetProvider.id, PlanetX);
+            }
+
+
+
+            foreach (var satelite in satelitesProvider)
+            {
+                if (planetDic.ContainsKey(satelite.planetId))
+                {
+                    Moon sateliteX = new Moon();
+                    sateliteX.name = satelite.name;
+                    sateliteX.radius = satelite.radius;
+                    sateliteX.surface = 4 * Math.PI * Math.Pow(satelite.radius, 2);
+
+                    planetDic[satelite.planetId].moons.Add(sateliteX);
+                }
+
+
+            }
+
+            foreach (var planet in planetDic)
+            {
+                solarSystem.planets.Add(planet.Value);
+            }
+
+            return solarSystem;
+        }
+
         public static string readFile(string file)
         {
             string informationRead = string.Empty;
 
-            using (StreamReader r = new StreamReader("C:\\Users\\peina\\source\\repos\\anapeinado\\CsharpExcercises\\Planets\\" + file))
+            using (StreamReader r = new StreamReader(Directory.GetCurrentDirectory() + "..\\..\\..\\..\\" + file))
             {
                 informationRead = r.ReadToEnd();
             }

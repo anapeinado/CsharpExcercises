@@ -6,11 +6,11 @@ namespace Planets
 {
     public class Planet : CelestialBody
     {
-        public decimal radius;
+        public double radius;
         public List<Moon> moons;
         public string solarSystem;
-        public int periodRotation;
-        public int periodTranslation;
+        public double periodRotation;
+        public double periodTranslation;
         public double distanceFromStar;
         
 
