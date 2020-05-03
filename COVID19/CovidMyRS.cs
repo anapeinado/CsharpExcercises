@@ -6,8 +6,10 @@ namespace COVID19
 {
    public class CovidMyRS
     {
+        
         public string date;
-        public string name;
+        public string country;
+        public string nameRegion;
         public int todayNewCases;
         public int todayNewDeaths;
         public int totalCases;
