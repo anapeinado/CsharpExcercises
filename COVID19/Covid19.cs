@@ -7,20 +7,14 @@ using System.Text;
 
 namespace COVID19
 {
-    class Covid19
+    public static class Covid19
     {
-        static void Main(string[] args)
+
+        public static string doCovidProcess(string date, string country, string regionInput)
         {
 
 
             HttpClient client = new HttpClient();
-
-            Console.WriteLine("Introduzca el día que quiera ver con el formato YYYY-MM-DD:");
-            string date = Console.ReadLine();
-            Console.WriteLine("Introduzca el país en inglés:");
-            string country = Console.ReadLine();
-            Console.WriteLine("Introduzca la región en castellano:");
-            string regionInput = Console.ReadLine();
 
             client.BaseAddress = new Uri("https://api.covid19tracking.narrativa.com/");
             HttpResponseMessage covidResponse = client.GetAsync("api/" + date + "/country/" + country.ToLower()).Result;
@@ -32,15 +26,7 @@ namespace COVID19
 
             CovidMyRS covidMyRS = convertRSToMyRS(covidRS, date, country, regionInput);
 
-            string telegramText = buildStringTelegram(covidMyRS);
-
-
-
-            string output = JsonConvert.SerializeObject(covidMyRS);
-
-
-            Console.WriteLine(output);
-
+            return buildStringTelegram(covidMyRS);
         }
 
         private static string buildStringTelegram(CovidMyRS covidMyRS)
@@ -49,13 +35,13 @@ namespace COVID19
 
             StringBuilder sbTelegramText = new StringBuilder();
 
-            sbTelegramText.AppendLine("_DATOS DEL DÍA_ "+covidMyRS.date+ " _EN_ "+covidMyRS.country);
+            sbTelegramText.AppendLine("DATOS DEL DÍA " + covidMyRS.date + " EN " + covidMyRS.country);
             sbTelegramText.AppendLine(covidMyRS.nameRegion);
-            sbTelegramText.AppendLine("Muertos hoy: "+covidMyRS.todayNewDeaths);
-            sbTelegramText.AppendLine("Total muertos: "+covidMyRS.totalDeaths);
-            sbTelegramText.AppendLine("Contagios hoy: "+covidMyRS.todayNewCases);
-            sbTelegramText.AppendLine("Total contagios: "+covidMyRS.totalCases);
-            
+            sbTelegramText.AppendLine("· Muertos hoy: " + covidMyRS.todayNewDeaths);
+            sbTelegramText.AppendLine("· Total muertos: " + covidMyRS.totalDeaths);
+            sbTelegramText.AppendLine("· Contagios hoy: " + covidMyRS.todayNewCases);
+            sbTelegramText.AppendLine("· Total contagios: " + covidMyRS.totalCases);
+
 
 
             return sbTelegramText.ToString();
