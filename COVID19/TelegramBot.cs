@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using Telegram.Bot;
@@ -12,13 +13,22 @@ namespace COVID19
         private static TelegramBotClient Bot;
         static void Main(string[] args)
         {
-            Bot = new TelegramBotClient("993899170:AAF3bv3SFNIX0wn01C8aHXcZz0El63gP4OQ");
 
-            Bot.OnMessage += Bot_OnMessage;
+            var covidMyRS = Covid19.doCovidProcess("Spain", "Baleares", "2020-05-01", "2020-05-09");
 
-            Bot.StartReceiving();
-            Console.ReadLine();
-            Bot.StopReceiving();
+            string covidCSV = Covid19.buildStringCSV(covidMyRS);
+
+            File.WriteAllText("covidTable.csv", covidCSV, Encoding.UTF8);
+
+            var kf = 135;
+
+            //Bot = new TelegramBotClient("993899170:AAF3bv3SFNIX0wn01C8aHXcZz0El63gP4OQ");
+
+            //Bot.OnMessage += Bot_OnMessage;
+
+            //Bot.StartReceiving();
+            //Console.ReadLine();
+            //Bot.StopReceiving();
 
 
         }
@@ -29,30 +39,42 @@ namespace COVID19
             try
             {
 
-       
+                if (e.Message.Type == Telegram.Bot.Types.Enums.MessageType.Text && validateMessage(e.Message.Text))
+                {
+                    string result = string.Empty;
 
-            if (e.Message.Type == Telegram.Bot.Types.Enums.MessageType.Text && validateMessage(e.Message.Text))
-            {
+                    var messageParameters = e.Message.Text.Split(',');
+                    if (messageParameters.Length == 3)
+                    {
+                        var covidMyRS = Covid19.doCovidProcess(messageParameters[1].TrimStart(), messageParameters[2].TrimStart(), messageParameters[0].TrimStart('/'));
+
+                        result = Covid19.buildStringTelegram(covidMyRS);
 
 
-                var messageParameters = e.Message.Text.Split(',');
+                    }
+                    else
+                    {
+                        var covidMyRS = Covid19.doCovidProcess(messageParameters[2].TrimStart(), messageParameters[3].TrimStart(), messageParameters[0].TrimStart('/'), messageParameters[1].TrimStart());
+
+                        result = Covid19.buildStringTelegram(covidMyRS);
+
+                    }
 
 
-                var result = Covid19.doCovidProcess(messageParameters[0].TrimStart('/'), messageParameters[1].TrimStart(), messageParameters[2].TrimStart());
+                    Bot.SendTextMessageAsync(e.Message.Chat.Id, result);
 
-                Bot.SendTextMessageAsync(e.Message.Chat.Id, result);
 
-            }
-            else
-            {
-                Bot.SendTextMessageAsync(e.Message.Chat.Id, "To recieve the data, the message format must be as follows: YYYY-MM-DD, Country, Region");
+                }
+                else
+                {
+                    Bot.SendTextMessageAsync(e.Message.Chat.Id, "To recieve the data, the message format must be as follows: YYYY-MM-DD, Country, Region");
 
-            }
+                }
 
             }
             catch (Exception)
             {
-                Bot.SendTextMessageAsync(e.Message.Chat.Id, "Error. Please to recieve the data, the message format must be as follows: YYYY-MM-DD, Country, Region");
+                Bot.SendTextMessageAsync(e.Message.Chat.Id, "Error. To recieve the data please, the message format must be as follows: YYYY-MM-DD, Country, Region");
 
             }
 
@@ -65,7 +87,7 @@ namespace COVID19
 
             var messageParameters = text.Split(',');
 
-            if (messageParameters.Length == 3)
+            if (messageParameters.Length == 3 || messageParameters.Length == 4)
             {
                 var date = messageParameters[0].TrimStart('/');
                 var dateParameters = date.Split('-');
