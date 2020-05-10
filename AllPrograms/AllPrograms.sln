@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HangMan", "..\HangMan\HangM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Universe", "..\Planets\Universe.csproj", "{4D606638-DEA0-48C9-BA5E-2C07815449F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COVID19", "..\COVID19\COVID19.csproj", "{C73798A0-F262-4ACA-BECE-798E95EA8F8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COVID19", "..\COVID19\COVID19.csproj", "{C73798A0-F262-4ACA-BECE-798E95EA8F8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormCovid", "..\FormCovid\FormCovid.csproj", "{78A373E7-BD6D-45CB-A1BA-D7F428349D04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{C73798A0-F262-4ACA-BECE-798E95EA8F8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C73798A0-F262-4ACA-BECE-798E95EA8F8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C73798A0-F262-4ACA-BECE-798E95EA8F8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78A373E7-BD6D-45CB-A1BA-D7F428349D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78A373E7-BD6D-45CB-A1BA-D7F428349D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78A373E7-BD6D-45CB-A1BA-D7F428349D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78A373E7-BD6D-45CB-A1BA-D7F428349D04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -19,16 +19,7 @@ namespace COVID19
             HttpResponseMessage covidResponse = new HttpResponseMessage();
             client.BaseAddress = new Uri("https://api.covid19tracking.narrativa.com/");
 
-            if (dateTo == "")
-            {
-                covidResponse = client.GetAsync("api/" + dateFrom + "/country/" + country.ToLower()).Result;
-
-            }
-            else
-            {
-                covidResponse = client.GetAsync("api/country/" + country.ToLower() + "?date_from=" + dateFrom + "&date_to=" + dateTo).Result;
-
-            }
+            covidResponse = client.GetAsync("api/country/" + country.ToLower() + "/region/" + regionInput.ToLower() + "?date_from=" + dateFrom + "&date_to=" + dateTo).Result;
 
             string response = covidResponse.Content.ReadAsStringAsync().Result;
 
