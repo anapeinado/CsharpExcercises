@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -23,7 +24,7 @@ namespace FormCovid
     /// </summary>
     public partial class MainWindow : Window
     {
-      public   Dictionary<string, List<string>> Countries;
+        public Dictionary<string, List<string>> Countries;
 
         public MainWindow()
         {
@@ -72,9 +73,9 @@ namespace FormCovid
             string country = TextBoxCountry.Text;
             string region = TextBoxRegion.Text;
 
-            string dateFrom = DatesRange.SelectedDates[0].ToString("dd-MM-yyyy");
+            string dateFrom = DatesRange.SelectedDates[0].ToString("yyyy-MM-dd");
 
-            string dateTo = DatesRange.SelectedDates[DatesRange.SelectedDates.Count - 1].ToString("dd-MM-yyyy");
+            string dateTo = DatesRange.SelectedDates[DatesRange.SelectedDates.Count - 1].ToString("yyyy-MM-dd");
 
             var covidMyRS = Covid19.doCovidProcess(country, region, dateFrom, dateTo);
 
@@ -92,6 +93,8 @@ namespace FormCovid
         {
             string countrySelected = ListBoxCountry.SelectedItem.ToString();
 
+            TextBoxCountry.Text = countrySelected;
+
             Countries.TryGetValue(countrySelected, out List<string> regions);
             foreach (var region in regions)
             {
@@ -99,6 +102,33 @@ namespace FormCovid
             }
 
 
+
+        }
+
+        private void SaveClick(object sender, RoutedEventArgs e)
+        {
+
+            string country = TextBoxCountry.Text;
+            string region = TextBoxRegion.Text;
+
+            string dateFrom = DatesRange.SelectedDates[0].ToString("yyyy-MM-dd");
+
+            string dateTo = DatesRange.SelectedDates[DatesRange.SelectedDates.Count - 1].ToString("yyyy-MM-dd");
+
+            var covidMyRS = Covid19.doCovidProcess(country, region, dateFrom, dateTo);
+
+            string covidCSV = Covid19.buildStringCSV(covidMyRS);
+
+            File.WriteAllText("covidTable.csv", covidCSV, Encoding.UTF8);
+
+            TextBoxResult.Text = "El archivo se ha guardado";
+        }
+
+        private void ListBoxRegion_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string regionSelected = ListBoxRegion.SelectedItem.ToString();
+
+            TextBoxRegion.Text = regionSelected;
 
         }
     }

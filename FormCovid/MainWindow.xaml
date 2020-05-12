@@ -13,6 +13,7 @@
         <TextBox x:Name="TextBoxResult" HorizontalAlignment="Left" Margin="456,217,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Height="174"/>
         <Calendar Name="DatesRange" SelectionMode="MultipleRange" HorizontalAlignment="Left" Margin="481,33,0,0" VerticalAlignment="Top" Height="199" Width="206"/>
         <ListBox x:Name="ListBoxCountry" Margin="64,87,602,144" SelectionChanged="ListBoxCountry_SelectionChanged"/>
-        <ListBox x:Name="ListBoxRegion" Margin="249,87,417,144"/>
+        <ListBox x:Name="ListBoxRegion" Margin="249,87,417,144" SelectionChanged="ListBoxRegion_SelectionChanged"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="170,375,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.447,-0.733" Height="22" Width="70" Click="SaveClick"/>
     </Grid>
 </Window>

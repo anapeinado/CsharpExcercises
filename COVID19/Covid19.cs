@@ -18,8 +18,12 @@ namespace COVID19
             HttpClient client = new HttpClient();
             HttpResponseMessage covidResponse = new HttpResponseMessage();
             client.BaseAddress = new Uri("https://api.covid19tracking.narrativa.com/");
+            string url = "api/country/" + country.ToLower() + "/region/" + regionInput.ToLower() + "?date_from=" + dateFrom + "&date_to=" + dateTo;
 
-            covidResponse = client.GetAsync("api/country/" + country.ToLower() + "/region/" + regionInput.ToLower() + "?date_from=" + dateFrom + "&date_to=" + dateTo).Result;
+            covidResponse = client.GetAsync(url).Result;
+
+            //api/country/spain/region/madrid?date_from=2020-03-20&date_to=2020-03-22
+            //api/country/spain/region/baleares?date_from=04-05-2020&date_to=05-05-2020
 
             string response = covidResponse.Content.ReadAsStringAsync().Result;
 

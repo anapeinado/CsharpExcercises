@@ -20,7 +20,7 @@ namespace COVID19
 
             File.WriteAllText("covidTable.csv", covidCSV, Encoding.UTF8);
 
-            var kf = 135;
+            
 
             //Bot = new TelegramBotClient("993899170:AAF3bv3SFNIX0wn01C8aHXcZz0El63gP4OQ");
 
